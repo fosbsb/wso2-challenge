@@ -3,6 +3,7 @@ import ballerina/sql;
 import ballerinax/mysql;
 import ballerinax/mysql.driver as _;
 
+configurable string hrEndpoint = ?;
 configurable string host = "104.251.217.31";
 configurable int port = 3306;
 configurable string user = "root";
