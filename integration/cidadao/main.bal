@@ -49,7 +49,7 @@ service / on new http:Listener(8080) {
         }
     }
 
-    resource function get filter(int? id, string? nome, string? perfil, string? pais, string? numeroDocumento, boolean? ativo) returns Cidadao[]|error {
+    resource function get cidadao/busca(int? id, string? nome, string? perfil, string? pais, string? numeroDocumento, boolean? ativo) returns Cidadao[]|error {
        
         string perfilAdmin = "ADMIN";
 
