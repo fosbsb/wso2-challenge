@@ -4,15 +4,23 @@ import ballerinax/mysql;
 import ballerinax/mysql.driver as _;
 
 configurable string hrEndpoint = ?;
-configurable string host = "104.251.217.31";
-configurable int port = 3306;
-configurable string user = "root";
-configurable string password = "pl4n0n0v3";
-configurable string database = "farmaceutico";
+configurable string host = ?;
+configurable int port = ?;
+configurable string user = ?;
+configurable string password = ?;
+configurable string database = ?;
 
-type Perfil record {|
+type Cidadao record {|
     int id;
-    string descricao;
+    string nome;
+    string email;
+    string telefone;
+    string pais;
+    @sql:Column { name: "numero_documento" }
+    string numero_documento;
+    string? anexo;
+    string perfil;
+    boolean ativo;
 |};
 
 final mysql:Client db = check new (host, user, password, database, port);
@@ -24,15 +32,15 @@ service / on new http:Listener(8080) {
         self.db = check new (host, user, password, database, port);
     }
 
-    resource function get perfis() returns Perfil[]|error {
+    resource function get cidadao() returns Cidadao[]|error {
        
-        stream<Perfil, sql:Error?> perfilStream = self.db->query(`SELECT * FROM perfil`);
-        return from Perfil perfil in perfilStream select perfil;
+        stream<Cidadao, sql:Error?> resultStream = self.db->query(`SELECT * FROM cidadao`);
+        return from Cidadao cidadao in resultStream select cidadao;
     }
 
-    resource function get perfil/[int id]() returns Perfil|http:NotFound|error {
+    resource function get cidadao/[int id]() returns Cidadao|http:NotFound|error {
        
-        Perfil|sql:Error result = self.db->queryRow(`SELECT * FROM perfil where id = ${id}`);
+        Cidadao|sql:Error result = self.db->queryRow(`SELECT * FROM cidadao where id = ${id}`);
 
         if result is sql:NoRowsError {
             return http:NOT_FOUND;
@@ -41,6 +49,46 @@ service / on new http:Listener(8080) {
         }
     }
 
+    resource function get filter(int? id, string? nome, string? perfil, string? pais, string? numeroDocumento, boolean? ativo) returns Cidadao[]|error {
+       
+        string perfilAdmin = "ADMIN";
+
+        sql:ParameterizedQuery query = `SELECT * FROM cidadao WHERE perfil <> ${perfilAdmin} `;
+
+        if (id != null) {
+            sql:ParameterizedQuery filter = ` AND id = ${id}`;
+            query = sql:queryConcat(query,filter);
+        }
+
+        if (nome != null) {
+            string nomeLike = "%" + nome + "%";
+            sql:ParameterizedQuery filter = ` AND nome like ${nomeLike}`;
+            query = sql:queryConcat(query,filter);
+        }
+
+        if (perfil != null) {
+            sql:ParameterizedQuery filter = ` AND perfil = ${perfil}`;
+            query = sql:queryConcat(query,filter);
+        }
+
+        if (pais != null) {
+            sql:ParameterizedQuery filter = ` AND pais = ${pais}`;
+            query = sql:queryConcat(query,filter);
+        }
+
+        if (numeroDocumento != null) {
+            sql:ParameterizedQuery filter = ` AND numero_documento = ${numeroDocumento}`;
+            query = sql:queryConcat(query,filter);
+        }
+
+        if (ativo != null) {
+            sql:ParameterizedQuery filter = ` AND ativo = ${ativo}`;
+            query = sql:queryConcat(query,filter);
+        }
+
+        stream<Cidadao, sql:Error?> resultStream = self.db->query(query);
+        return from Cidadao cidadao in resultStream select cidadao;
+    }
 
 }
 
