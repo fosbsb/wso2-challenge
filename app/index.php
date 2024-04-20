@@ -1,83 +1,64 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-br">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Formulário de Cadastro</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
-    <style>
-        /* Estilos personalizados */
-        .hidden {
-            display: none;
-        }
-    </style>
+	<title>NomeDoSistema</title>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<!--===============================================================================================-->
+	<link rel="icon" type="image/png" href="images/img-02.jpeg" />
+	<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="vendor/bootstrap/css/bootstrap.min.css">
+	<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="fonts/font-awesome-4.7.0/css/font-awesome.min.css">
+	<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="vendor/animate/animate.css">
+	<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="vendor/css-hamburgers/hamburgers.min.css">
+	<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="vendor/select2/select2.min.css">
+	<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="css/util.css">
+	<link rel="stylesheet" type="text/css" href="css/main.css">
+	<!--===============================================================================================-->
 </head>
 
 <body>
+	<nav class="navbar navbar-expand-lg navbar-light bg-light">
+		<a class="navbar-brand" href="#">NomeDoSistema</a>
+		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+			<span class="navbar-toggler-icon"></span>
+		</button>
 
-    <div class="container mt-5">
-        <div class="row">
-            <div class="col-md-6 offset-md-3">
-                <p class="fs-1">Formulário de Cadastro</p>
-                <form id="cadastroForm" action="admin.html">
-                    <div class="mb-3">
-                        <label for="perfil">Perfil:</label>
-                        <select class="form-control" id="perfil" onchange="toggleForm()">
-                            <option value="padrao">Padrão</option>
-                            <option value="avancado">Avançado</option>
-                        </select>
-                    </div>
-                    <div id="primeiroForm">
-                        <div class="mb-3">
-                            <label for="nome">Nome:</label>
-                            <input type="text" class="form-control" id="nome" name="nome">
-                        </div>
-                        <div class="mb-3">
-                            <label for="email">Email:</label>
-                            <input type="email" class="form-control" id="email" name="email">
-                        </div>
-                        <div class="mb-3">
-                            <label for="telefone">Telefone:</label>
-                            <input type="tel" class="form-control" id="telefone" name="telefone">
-                        </div>
-                        <div class="mb-3">
-                            <label for="documento">Documento:</label>
-                            <input type="text" class="form-control" id="documento" name="documento">
-                        </div>
-                        <div class="mb-3">
-                            <label for="anexoDocumento">Anexo do Documento:</label>
-                            <input type="file" class="form-control" id="anexoDocumento" name="anexoDocumento">
-                        </div>
-                    </div>
-                    <!-- Formulário avançado oculto por padrão -->
-                    <div class="hidden" id="segundoForm">
-                        <div class="mb-3">
-                            <label>Segundo formulário:</label>
-                            <input type="text" class="form-control">
-                        </div>
-                    </div>
-                    <button type="submit" class="btn btn-primary">Enviar</button>
-                </form>
-            </div>
-        </div>
-    </div>
+		<div class="collapse navbar-collapse" id="navbarSupportedContent">
+			<ul class="navbar-nav mr-auto">
+				<li class="nav-item active">
+					<a id="nav-current" class="nav-link" href="#">Home</a>
+				</li>
+			</ul>
+		</div>
+	</nav>
+	<div id="conteudo"></div>
 
-    <script>
-        function toggleForm() {
-            var perfil = document.getElementById("perfil").value;
-            var primeiroForm = document.getElementById("primeiroForm");
-            var segundoForm = document.getElementById("segundoForm");
+	<div class="fixed-bottom" style="background-color: #f8f9fa; height: 50px; text-align: center; padding: 10px;">Footer com links</div>
 
-            if (perfil === "avancado") {
-                primeiroForm.classList.add("hidden");
-                segundoForm.classList.remove("hidden");
-            } else {
-                primeiroForm.classList.remove("hidden");
-                segundoForm.classList.add("hidden");
-            }
-        }
-    </script>
+	<!--===============================================================================================-->
+	<script src="vendor/jquery/jquery-3.2.1.min.js"></script>
+	<!--===============================================================================================-->
+	<script src="vendor/bootstrap/js/popper.js"></script>
+	<script src="vendor/bootstrap/js/bootstrap.min.js"></script>
+	<!--===============================================================================================-->
+	<script src="vendor/select2/select2.min.js"></script>
+	<!--===============================================================================================-->
+	<script src="vendor/tilt/tilt.jquery.min.js"></script>
+	<script>
+		$('.js-tilt').tilt({
+			scale: 1.1
+		})
+	</script>
+	<!--===============================================================================================-->
+	<script src="js/functions.js"></script>
+	<script src="js/main.js"></script>
 
 </body>
 

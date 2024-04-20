@@ -3,9 +3,9 @@
 /**
  * Faz a chamada para qualquer API.
  * devolve um json como resposta se a api tiver retorno deste tipo
- * @param URL - Completa com parametros GET.
- * @param METHOD - GET, POST, PUT, DELETE.
- * @param PAYLOAD - corpo que será enviado no formato json_encode(array(titulo => conteudo)).
+ * @param `URL` - Completa com parametros GET.
+ * @param `METHOD` - GET, POST, PUT, DELETE.
+ * @param `PAYLOAD` - corpo que será enviado no formato json_encode(array(titulo => conteudo)).
  */
 function consumoAPI(string $url, string $metodo, string $payload, array $header = null)
 {
