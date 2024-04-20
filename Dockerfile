@@ -2,7 +2,7 @@
 FROM php:7.4-apache
 
 ARG USERNAME=fosbsb
-ARG USER_UID=1000
+ARG USER_UID=12222
 ARG USER_GID=$USER_UID
 
 # Create the user
