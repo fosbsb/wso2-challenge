@@ -13,17 +13,17 @@ configurable string DATABASE = ?;
 
 type Payment record {|
     string id;
-    string uuid;
-    @sql:Column { name: "created_date" }
-    string dateCreated;
-    string value;
+    float value;
     @sql:Column { name: "type" }
     string paymentType;
-    string status;
     @sql:Column { name: "citizen_id" }
     int citizenId;
     @sql:Column { name: "provider_id" }
     int providerId;
+    string? status;
+    string? uuid;
+    @sql:Column { name: "created_date" }
+    string? dateCreated;
     @sql:Column { name: "payment_date" }
     string? paymentDate;
     @sql:Column { name: "authorization_number" }
