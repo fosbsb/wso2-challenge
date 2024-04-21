@@ -14,6 +14,10 @@ service /payments on new http:Listener(8080) {
         return getPayment(id);
     }
 
+    isolated resource function get uuid/[string uuid]() returns Payment|http:NotFound|error? {
+        return getPaymentByUUID(uuid);
+    }
+
     isolated resource function get .() returns Payment[]|error? {
         return getAllPayments();
     }

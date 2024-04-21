@@ -72,6 +72,18 @@ isolated function getPayment(string id) returns Payment|http:NotFound|error {
 
 }
 
+isolated function getPaymentByUUID(string uuid) returns Payment|http:NotFound|error {
+    
+    Payment|sql:Error result = dbClient->queryRow(`SELECT * FROM payment where uuid = ${uuid}`);
+
+    if result is sql:NoRowsError {
+        return http:NOT_FOUND;
+    } else {
+        return result;
+    }
+
+}
+
 isolated function getAllPayments() returns Payment[]|error {
     
     Payment[] payments = [];
