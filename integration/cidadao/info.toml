@@ -1,6 +1,0 @@
-hrEndpoint = "http://localhost:8080"
-host = "104.251.217.31"
-port = 3306
-user = "root"
-password = "pl4n0n0v3"
-database = "db_desafio_wso2" 
