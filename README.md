@@ -25,3 +25,13 @@ INSERT INTO citizen (id, name, email, phone, country, document_number, attachmen
 INSERT INTO citizen (id, name, email, phone, country, document_number, attachment, profile, active) VALUES(3, 'Sabrina de Paula Oliveira', 'sabrinatatapaula@gmail.com', '+556199999999', 'br', '08410000000', NULL, 'CITIZEN', 0);
 INSERT INTO citizen (id, name, email, phone, country, document_number, attachment, profile, active) VALUES(4, 'Samantha de Paula Oliveira', 'spoliveira2014@gmail.com', '+556199999999', 'br', '08420000000', NULL, 'CITIZEN', 0);
 ````
+
+
+````
+CREATE TABLE public.audit (
+	id bigserial NOT NULL,
+	"date" timestamp DEFAULT CURRENT_TIMESTAMP NOT NULL,
+	json json NOT NULL,
+	CONSTRAINT audit_pk PRIMARY KEY (id)
+);
+````
