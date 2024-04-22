@@ -33,7 +33,7 @@ dependencies = [
 [[package]]
 org = "ballerina"
 name = "constraint"
-version = "1.5.0"
+version = "1.4.0"
 dependencies = [
 	{org = "ballerina", name = "jballerina.java"}
 ]
@@ -41,7 +41,7 @@ dependencies = [
 [[package]]
 org = "ballerina"
 name = "crypto"
-version = "2.6.2"
+version = "2.5.0"
 dependencies = [
 	{org = "ballerina", name = "jballerina.java"},
 	{org = "ballerina", name = "time"}
@@ -307,7 +307,7 @@ modules = [
 
 [[package]]
 org = "flavianosilva"
-name = "cidadao"
+name = "citizen"
 version = "0.1.0"
 dependencies = [
 	{org = "ballerina", name = "http"},
@@ -316,6 +316,6 @@ dependencies = [
 	{org = "ballerinax", name = "mysql.driver"}
 ]
 modules = [
-	{org = "flavianosilva", packageName = "cidadao", moduleName = "cidadao"}
+	{org = "flavianosilva", packageName = "citizen", moduleName = "citizen"}
 ]
 

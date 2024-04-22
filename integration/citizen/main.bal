@@ -10,40 +10,46 @@ configurable string HOST = ?;
 configurable int    PORT = ?;
 configurable string DATABASE = ?;
 
+type Message record {|
+    string typeMessage;
+    string status;
+|};
+
 type Citizen record {|
-    int id;
+    readonly int? id;
     string name;
     string email;
     string phone;
     string country;
     @sql:Column { name: "document_number" }
     string documentNumber;
-    string? attachment;
     string profile;
     boolean active;
+    string? cep;
+    string? address;
     @sql:Column { name: "created_date" }
-    string dateCreated;
+    string? dateCreated;
 |};
 
 final mysql:Client dbClient = check new(
     host=HOST, user=USER, password=PASSWORD, port=PORT, database=DATABASE
 );
 
-isolated function addCitizen(Citizen citizen) returns int|error {
+isolated function addCitizen(Citizen citizen) returns Citizen|http:NotFound|error {
 
     sql:ExecutionResult result = check dbClient->execute(`
         INSERT INTO citizen (name, email, phone, 
                              country, document_number,
-                             profile, attachment)
+                             profile, cep, address)
         VALUES (${citizen.name}, ${citizen.email}, ${citizen.phone},  
                 ${citizen.country}, ${citizen.documentNumber}, 
-                ${citizen.profile}, ${citizen.attachment})
+                ${citizen.profile}, ${citizen.cep}, ${citizen.address})
         `);
     
     int|string? lastInsertId = result.lastInsertId;
     
     if lastInsertId is int {
-        return lastInsertId;
+        return getCitizen(lastInsertId);
     } else {
         return error("Error inserting record.");
     }
@@ -79,56 +85,73 @@ isolated function getAllCitizens() returns Citizen[]|error {
     return citizens;
 }
 
-isolated function updateCitizen(Citizen citizen) returns int|error {
+isolated function updateCitizen(Citizen citizen) returns Citizen|http:NotFound|error {
     sql:ExecutionResult result = check dbClient->execute(`
         UPDATE citizen SET
             name = ${citizen.name}, 
             email = ${citizen.email},
             phone = ${citizen.phone},
             country = ${citizen.country},
-            document_number = ${citizen.documentNumber} 
+            document_number = ${citizen.documentNumber},
+            cep = ${citizen.cep},
+            address = ${citizen.address} 
         WHERE id = ${citizen.id}
     `);
     
     int|string? lastInsertId = result.lastInsertId;
     
     if lastInsertId is int {
-        return lastInsertId;
+         return getCitizen(lastInsertId);
     } else {
         return error("Error update record.");
     }
+
 }
 
-isolated function disableCitizen(int id) returns int|error {
+isolated function alterStatusCitizen(int id, boolean status) returns Citizen|http:NotFound|error {
     sql:ExecutionResult result = check dbClient->execute(`
-        UPDATE FROM citizen SET active = false WHERE id = ${id}
+        UPDATE citizen SET active = ${status} WHERE id = ${id}
     `);
 
     int? affectedRowCount = result.affectedRowCount;
     
     if affectedRowCount is int {
-        return affectedRowCount;
+        return getCitizen(id);
     } else {
         return error("Error update record.");
     }
 }
 
-isolated function removeCitizen(int id) returns int|error {
+isolated function removeCitizen(int id) returns Message|error {
     sql:ExecutionResult result = check dbClient->execute(`
         DELETE FROM citizen WHERE id = ${id}
     `);
     
     int? affectedRowCount = result.affectedRowCount;
 
+    Message message;
+
     if affectedRowCount is int {
-        return affectedRowCount;
+        if (affectedRowCount > 0) {
+            message = { 
+                typeMessage: "success",
+                status: "record removed successfully."
+            };
+        } else {
+            message = {
+                typeMessage: "info",
+                status: "not record removed."
+            };
+        }
+
+        return message;
     } else {
         return error("Error remove record.");
     }
 }
 
 isolated function getFilterCitizen(int? id, string? name, string? profile, string? country, 
-                                string? documentNumber, boolean? active) returns Citizen[]|error {
+                                string? documentNumber, string? address, boolean? active) returns Citizen[]|error {
        
         string adminProfile = "ADMIN";
 
@@ -162,6 +185,12 @@ isolated function getFilterCitizen(int? id, string? name, string? profile, strin
 
         if (active != null) {
             sql:ParameterizedQuery filter = ` AND active = ${active}`;
+            query = sql:queryConcat(query,filter);
+        }
+
+        if (address != null) {
+            string nameAddress = "%" + address + "%";
+            sql:ParameterizedQuery filter = ` AND address like ${nameAddress}`;
             query = sql:queryConcat(query,filter);
         }
 

@@ -2,15 +2,15 @@ import ballerina/http;
 
 service /citizens on new http:Listener(8080) {
     
-    isolated resource function post .(@http:Payload Citizen citizen) returns int|error? {
+    isolated resource function post .(@http:Payload Citizen citizen) returns Citizen|http:NotFound|error? {
         return addCitizen(citizen);
     }
 
-    isolated resource function put .(@http:Payload Citizen citizen) returns int|error? {
+    isolated resource function put .(@http:Payload Citizen citizen) returns Citizen|http:NotFound|error? {
         return updateCitizen(citizen);
     }
 
-    isolated resource function delete [int id]() returns int|error? {
+    isolated resource function delete [int id]() returns Message|error? {
         return removeCitizen(id);       
     }
 
@@ -23,8 +23,17 @@ service /citizens on new http:Listener(8080) {
     }
 
     isolated resource function get search(int? id, string? name, string? profile, 
-                                           string? country, string? documentNumber, boolean? active) returns Citizen[]|error? {
-        return getFilterCitizen(id, name, profile, country, documentNumber, active);
+                                           string? country, string? documentNumber, 
+                                           string? address, boolean? active) returns Citizen[]|error? {
+        return getFilterCitizen(id, name, profile, country, documentNumber, address, active);
+    }
+
+    isolated resource function put disable(int id) returns Citizen|http:NotFound|error? {
+        return alterStatusCitizen(id, false);
+    }
+
+    isolated resource function put enable(int id) returns Citizen|http:NotFound|error? {
+        return alterStatusCitizen(id, true);
     }
 
 }
