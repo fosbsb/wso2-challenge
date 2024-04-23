@@ -2,7 +2,7 @@ import ballerina/http;
 
 service /payments on new http:Listener(8080) {
     
-    isolated resource function post .(@http:Payload Payment payment) returns string|error? {
+    isolated resource function post .(@http:Payload Payment payment) returns Payment|http:NotFound|error? {
         return addPayment(payment);
     }
 
@@ -10,7 +10,7 @@ service /payments on new http:Listener(8080) {
         return executePayment(payment);
     }
 
-    isolated resource function get [string id]() returns Payment|http:NotFound|error? {
+    isolated resource function get [int id]() returns Payment|http:NotFound|error? {
         return getPayment(id);
     }
 

@@ -1,8 +1,8 @@
 {
     "clientID": "2HNEtMK98_8u3gHbSjqK53FGjt8a",
     "baseUrl": "https://api.asgardeo.io/t/fosbsb",
-    "signInRedirectURL": "https://e3843776-f97a-4862-ac2c-4095681da83b.e1-us-east-azure.choreoapps.dev",
-    "signOutRedirectURL": "https://e3843776-f97a-4862-ac2c-4095681da83b.e1-us-east-azure.choreoapps.dev",
+    "signInRedirectURL": "https://bdf8a1b0-1a53-4e12-806b-f11609e7cf78.e1-us-east-azure.choreoapps.dev",
+    "signOutRedirectURL": "https://bdf8a1b0-1a53-4e12-806b-f11609e7cf78.e1-us-east-azure.choreoapps.dev",
     "scope": ["profile", "email", "openid"],
     "storage": "sessionStorage"
 }

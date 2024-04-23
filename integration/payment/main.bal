@@ -1,5 +1,4 @@
 import ballerina/http;
-import ballerina/uuid;
 import ballerina/sql;
 import ballerinax/mysql;
 import ballerinax/mysql.driver as _;
@@ -12,20 +11,21 @@ configurable int    PORT = ?;
 configurable string DATABASE = ?;
 
 type Payment record {|
-    string id;
-    float value;
-    @sql:Column { name: "type" }
+    readonly int id;
+    float amount;
+    @sql:Column { name: "payment_type" }
     string paymentType;
     @sql:Column { name: "citizen_id" }
     int citizenId;
     @sql:Column { name: "provider_id" }
     int providerId;
     string? status;
-    string? uuid;
+    @sql:Column { name: "uuid_code" }
+    string? uuidCode;
     @sql:Column { name: "created_date" }
-    string? dateCreated;
+    string? dateCreated?;
     @sql:Column { name: "payment_date" }
-    string? paymentDate;
+    string? paymentDate?;
     @sql:Column { name: "authorization_number" }
     string? authorizationNumber;
 |};
@@ -39,28 +39,26 @@ final mysql:Client dbClient = check new(
     host=HOST, user=USER, password=PASSWORD, port=PORT, database=DATABASE
 );
 
-isolated function addPayment(Payment payment) returns string|error {
-
-    string uuid = uuid:createType1AsString();
+isolated function addPayment(Payment payment) returns Payment|http:NotFound|error {
 
     sql:ExecutionResult result = check dbClient->execute(`
-        INSERT INTO payment (uuid, value, type, 
-                             citizen_id, provider_id)
-        VALUES (${uuid},${payment.value}, ${payment.paymentType}, 
-                ${payment.citizenId}, ${payment.providerId})
+        INSERT INTO payment (uuid_code, created_date, amount, 
+                            payment_type, citizen_id, provider_id) 
+                      VALUES(UUID(), CURRENT_TIMESTAMP, ${payment.amount}, 
+                            ${payment.paymentType},${payment.citizenId}, ${payment.providerId})
         `);
     
     int|string? lastInsertId = result.lastInsertId;
     
-    if lastInsertId is string {
-        return lastInsertId;
+    if lastInsertId is int {
+        return getPayment(lastInsertId);
     } else {
         return error("Error inserting record.");
     }
 
 }
 
-isolated function getPayment(string id) returns Payment|http:NotFound|error {
+isolated function getPayment(int id) returns Payment|http:NotFound|error {
     
     Payment|sql:Error result = dbClient->queryRow(`SELECT * FROM payment where id = ${id}`);
 
@@ -71,6 +69,7 @@ isolated function getPayment(string id) returns Payment|http:NotFound|error {
     }
 
 }
+
 
 isolated function getPaymentByUUID(string uuid) returns Payment|http:NotFound|error {
     

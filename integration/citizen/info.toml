@@ -1,6 +1,0 @@
-hrEndpoint = "http://localhost:8080"
-USER = "db_desafio_wso2"
-PASSWORD = "Zhsc_srtcru45ygjf"
-HOST = "mysql.tecnisys.inf.br"
-PORT = 3306
-DATABASE = "db_desafio_wso2"
