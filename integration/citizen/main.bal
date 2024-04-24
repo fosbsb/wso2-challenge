@@ -282,7 +282,7 @@ isolated function getAllPaymentsByCitizen(int id) returns Payment[]|error {
     Payment[] payments = [];
     
     stream<Payment, error?> resultStream = dbClient->query(
-        `SELECT * FROM payment where id = ${id} order by created_date`
+        `SELECT * FROM payment where citizen_id = ${id} order by created_date`
     );
     
     check from Payment payment in resultStream
