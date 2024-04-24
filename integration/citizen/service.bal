@@ -60,4 +60,8 @@ service /immigrant on new http:Listener(8080) {
         return getAllPayments();
     }
 
+    isolated resource function get payment/citizen/[int id]() returns Payment[]|error? {
+        return getAllPaymentsByCitizen(id);
+    }
+
 }

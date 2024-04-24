@@ -277,6 +277,23 @@ isolated function getPaymentByUUID(string uuid) returns Payment|http:NotFound|er
 
 }
 
+isolated function getAllPaymentsByCitizen(int id) returns Payment[]|error {
+    
+    Payment[] payments = [];
+    
+    stream<Payment, error?> resultStream = dbClient->query(
+        `SELECT * FROM payment where id = ${id} order by created_date`
+    );
+    
+    check from Payment payment in resultStream
+        do {
+            payments.push(payment);
+        };
+    check resultStream.close();
+    
+    return payments;
+}
+
 isolated function getAllPayments() returns Payment[]|error {
     
     Payment[] payments = [];
