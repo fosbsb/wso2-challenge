@@ -6,7 +6,7 @@ service /payments on new http:Listener(8080) {
         return addPayment(payment);
     }
 
-    isolated resource function put .(@http:Payload Payment payment) returns int|error? {
+    isolated resource function put .(@http:Payload PaymentExecute payment) returns Payment|http:NotFound|error {
         return executePayment(payment);
     }
 
@@ -22,7 +22,7 @@ service /payments on new http:Listener(8080) {
         return getAllPayments();
     }
 
-    isolated resource function post updateStatus(@http:Payload PaymentStatus paymentStatus) returns int|error? { 
+    isolated resource function post updateStatus(@http:Payload PaymentStatus paymentStatus) returns Payment|http:NotFound|error { 
         return alterStatusPayment(paymentStatus);
     }
 

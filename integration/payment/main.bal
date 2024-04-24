@@ -28,10 +28,18 @@ type Payment record {|
     string? paymentDate?;
     @sql:Column { name: "authorization_number" }
     string? authorizationNumber;
+    @sql:Column { name: "send_notification_date" }
+    string? notificationDate?;
 |};
 
 type PaymentStatus record {|
-    string paymentId;
+    int paymentId;
+    string status;
+|};
+
+type PaymentExecute record {| 
+    int id;
+    string authorizationNumber;
     string status;
 |};
 
@@ -73,7 +81,7 @@ isolated function getPayment(int id) returns Payment|http:NotFound|error {
 
 isolated function getPaymentByUUID(string uuid) returns Payment|http:NotFound|error {
     
-    Payment|sql:Error result = dbClient->queryRow(`SELECT * FROM payment where uuid = ${uuid}`);
+    Payment|sql:Error result = dbClient->queryRow(`SELECT * FROM payment where uuid_code = ${uuid}`);
 
     if result is sql:NoRowsError {
         return http:NOT_FOUND;
@@ -100,35 +108,35 @@ isolated function getAllPayments() returns Payment[]|error {
     return payments;
 }
 
-isolated function executePayment(Payment payment) returns int|error {
+isolated function executePayment(PaymentExecute payment) returns Payment|http:NotFound|error {
     sql:ExecutionResult result = check dbClient->execute(`
         UPDATE payment SET
             status = ${payment.status}, 
             authorization_number = ${payment.authorizationNumber},
-            payment_date = CURRENT_TIMESTAMP()
+            payment_date = CURRENT_TIMESTAMP() 
         WHERE id = ${payment.id}
     `);
     
-    int|string? lastInsertId = result.lastInsertId;
+    int? affectedRowCount = result.affectedRowCount;
     
-    if lastInsertId is int {
-        return lastInsertId;
+    if affectedRowCount is int {
+        return getPayment(payment.id);
     } else {
         return error("Error update record.");
     }
 }
 
-isolated function alterStatusPayment(PaymentStatus payment) returns int|error {
+isolated function alterStatusPayment(PaymentStatus payment) returns Payment|http:NotFound|error {
     sql:ExecutionResult result = check dbClient->execute(`
         UPDATE payment SET
             status = ${payment.status} 
         WHERE id = ${payment.paymentId}
     `);
+
+    int? affectedRowCount = result.affectedRowCount;
     
-    int|string? lastInsertId = result.lastInsertId;
-    
-    if lastInsertId is int {
-        return lastInsertId;
+    if affectedRowCount is int {
+        return getPayment(payment.paymentId);
     } else {
         return error("Error update record.");
     }
