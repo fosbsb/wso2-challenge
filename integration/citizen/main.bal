@@ -183,8 +183,8 @@ isolated function removeCitizen(int id) returns Message|error {
     }
 }
 
-isolated function getFilterCitizen(int? id, string? name, string? profile, string? country, 
-                                string? documentNumber, string? address, boolean? active) returns Citizen[]|error {
+isolated function getFilterCitizen(int? id, string? name, string? email, string? profile, string? country, 
+                                   string? documentNumber, string? address, boolean? active) returns Citizen[]|error {
        
         string adminProfile = "ADMIN";
 
@@ -198,6 +198,11 @@ isolated function getFilterCitizen(int? id, string? name, string? profile, strin
         if (name != null) {
             string nameLike = "%" + name + "%";
             sql:ParameterizedQuery filter = ` AND name like ${nameLike}`;
+            query = sql:queryConcat(query,filter);
+        }
+
+        if (email != null) {
+            sql:ParameterizedQuery filter = ` AND email = ${email}`;
             query = sql:queryConcat(query,filter);
         }
 
