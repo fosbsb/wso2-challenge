@@ -1,22 +1,23 @@
 import React from 'react';
-import { createRoot } from 'react-dom/client'; // Import createRoot from react-dom
+import { createRoot } from 'react-dom/client';
 import './index.css';
 import App from './App';
-import Dashboard from "./pages/Dashboard";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { AuthProvider } from "@asgardeo/auth-react";
 import config from "./config.json";
+import Dashboard from './pages/Dashboard';
+import Register from './pages/Register';
+import Profile from './pages/Profile';
 
-// Use createRoot instead of ReactDOM.render
 createRoot(document.getElementById('root')).render(
-  <React.StrictMode>
     <AuthProvider config={config}>
       <Router>
         <Routes>
           <Route path="/" element={<App />} />
           <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/register" element={<Register />} />
+          <Route path="/profile/:userId" element={<Profile />} />
         </Routes>
       </Router>
     </AuthProvider>
-  </React.StrictMode>
 );

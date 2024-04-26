@@ -1,6 +1,6 @@
 import React from 'react';
 
-const Navbar = ({ isAuthenticated, signIn = () => { }, signOut = () => { } }) => {
+const Navbar = ({ isAuthenticated, signIn = () => { }, signOut = () => { }, menuActive }) => {
     return (
         <nav className="navbar navbar-expand-lg bg-body-tertiary">
             <div className="container-fluid">
@@ -11,11 +11,7 @@ const Navbar = ({ isAuthenticated, signIn = () => { }, signOut = () => { } }) =>
                 <div className="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul className="navbar-nav me-auto mb-2 mb-lg-0">
                         <li className="nav-item">
-                            {!isAuthenticated ? (
-                                <a className="nav-link active" aria-current="page" href="#">Home</a>
-                            ) : (
-                                <a className="nav-link active" aria-current="page" href="#">Usuários</a>
-                            )}
+                            <a className="nav-link active" aria-current="page" href="#">{menuActive}</a>
                         </li>
                     </ul>
                     {!isAuthenticated ? (

@@ -1,7 +1,7 @@
 import React from 'react';
 import imagem from '../images/cabeca-de-desenho-animado-isolada_1308-150493.avif';
 
-const CardUsuario = ({ name, email, phone, document, profile, imagem }) => {
+const UserCard = ({ name, email, phone, document, profile, imagem }) => {
     return (
         <div className="card user-card col position-relative">
             <div className="row g-0">
@@ -34,26 +34,26 @@ const CardUsuario = ({ name, email, phone, document, profile, imagem }) => {
     );
 }
 
-const ListaUsuarios = ({userLogged}) => {
+const UserList = ({userLogged}) => {
     return (
         <div className="container mt-5">
             <h1 className="mb-4">Administração de Usuários - {userLogged}</h1>
             <div className="row" id="userList">
                 <div className="col">
-                    <CardUsuario name="João" email="joao@example.com" phone="123456789" document="123456789" profile="Padrão" imagem={imagem} />
+                    <UserCard name="João" email="joao@example.com" phone="123456789" document="123456789" profile="Padrão" imagem={imagem} />
                 </div>
                 <div className="col">
-                    <CardUsuario name="Maria" email="maria@example.com" phone="987654321" document="987654321" profile="Avançado" imagem={imagem} />
+                    <UserCard name="Maria" email="maria@example.com" phone="987654321" document="987654321" profile="Avançado" imagem={imagem} />
                 </div>
                 <div className="col">
-                    <CardUsuario name="Maria" email="maria@example.com" phone="987654321" document="987654321" profile="Avançado" imagem={imagem} />
+                    <UserCard name="Maria" email="maria@example.com" phone="987654321" document="987654321" profile="Avançado" imagem={imagem} />
                 </div>
                 <div className="col">
-                    <CardUsuario name="Maria" email="maria@example.com" phone="987654321" document="987654321" profile="Avançado" imagem={imagem} />
+                    <UserCard name="Maria" email="maria@example.com" phone="987654321" document="987654321" profile="Avançado" imagem={imagem} />
                 </div>
             </div>
         </div>
     );
 }
 
-export default ListaUsuarios;
+export default UserList;
