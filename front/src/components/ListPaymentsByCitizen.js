@@ -37,12 +37,22 @@ function ListItem({ payment, index }) {
         })();
     }, [payment]);
 
+    const getStatusClass = () => {
+        if (payment.status === 'WAITING') {
+          return 'btn-info';
+        } else if (payment.status === 'CANCELLED') {
+          return 'btn-danger';
+        } else if (payment.status === 'PAID') {
+          return 'btn-success';
+        }
+      };
+
     return (
         <div className={`list-group-item list-group-item-action ${secondaryClass}`} key={index}>
             <div className="d-flex w-100 justify-content-between">
                 <h5 className="mb-1"><FontAwesomeIcon icon={faCreditCard} /> {payment.paymentType === 'CREDIT_CARD' ? 'CREDIT CARD' : payment.paymentType}</h5>
-                <p className="mb-1">Status: {payment.status}</p>
-                <p className="mb-1">Amount: {amount}</p>
+                <p style={{ width: '7.5em' }} className={`sb-1 btn ${getStatusClass()}`}>{payment.status}</p>
+                <p className="mb-1">$ {amount}</p>
                 <small className="text-body-secondary">Provider:&nbsp;
                     {loading ? (
                         <SpinnerSizeSm />
