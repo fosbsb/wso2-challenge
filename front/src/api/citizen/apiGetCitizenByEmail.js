@@ -9,7 +9,8 @@ async function GetDataCitizenByEmail(email) {
             params: { email },
             headers: {
                 'Authorization': token,
-            }
+            },
+            timeout: 30000
         });
 
         const result = {
