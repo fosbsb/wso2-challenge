@@ -31,10 +31,8 @@ isolated function cancelPayments() returns int|error {
     int? affectedRowCount = result.affectedRowCount;
     
     if affectedRowCount is int {
-        check dbClient.close();
         return affectedRowCount;
     } else {
-        check dbClient.close();
         return error("Error update record.");
     }
     
