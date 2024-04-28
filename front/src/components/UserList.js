@@ -1,7 +1,37 @@
-import React from 'react';
-import imagem from '../images/cabeca-de-desenho-animado-isolada_1308-150493.avif';
+import React, { useState } from 'react';
+import UpdateStatusCitizen from '../api/citizen/apiUpdateStatusCitizen';
+import SpinnerSizeSm from './spinners/SpinnerSizeSm';
+import { toast } from 'react-toastify';
+import { ToastOptions } from "../utils/ToastConfig";
 
-const UserCard = ({ name, email, phone, document, profile, imagem }) => {
+const UserCard = ({ id, name, email, phone, document, profile, imagem, status }) => {
+    const [isActive, setIsActive] = useState(status);
+    const [loadingStatus, setLoadingStatus] = useState(false);
+
+    const toastErrorStatus = () => {
+        toast.error('Error for updated citizen', ToastOptions);
+    }
+
+    const toggleStatus = async () => {
+        // setIsActive(!isActive);
+        try {
+            setLoadingStatus(true);
+
+            const response = await UpdateStatusCitizen(id, !isActive);
+            if (response.requestStatus === 200) {
+                toast.success('citizen successfully updated', ToastOptions);
+
+                setIsActive(!isActive)
+            } else {
+                toastErrorStatus();
+            }
+        } catch (error) {
+            toastErrorStatus();
+        } finally {
+            setLoadingStatus(false);
+        }
+    };
+
     return (
         <div className="card user-card col position-relative">
             <div className="row g-0">
@@ -12,7 +42,7 @@ const UserCard = ({ name, email, phone, document, profile, imagem }) => {
                         <p className="card-text"><strong>Telefone:</strong> {phone}</p>
                         <p className="card-text"><strong>Documento:</strong> {document}</p>
                         <p className="card-text"><strong>Perfil:</strong> {profile}</p>
-                        <a href="#" className="btn btn-primary">Ver Documento</a>
+                        <p className="card-text"><strong>Status:</strong> {isActive ? 'Ativo' : 'Desativo'}</p>
                     </div>
                 </div>
                 <div className="col-md-4">
@@ -23,8 +53,25 @@ const UserCard = ({ name, email, phone, document, profile, imagem }) => {
 
                         <div>
                             <div className="d-flex justify-content-end mt-2">
-                                <a href="#" className="btn btn-outline-success me-2">Aprovar</a>
-                                <a href="#" className="btn btn-outline-danger">Reprovar</a>
+                                {isActive ? (
+                                    <button onClick={toggleStatus} className="btn btn-outline-danger">
+                                        {loadingStatus ? (
+                                            <SpinnerSizeSm />
+                                        ) : (
+                                            'Desativar'
+                                        )
+                                        }
+                                    </button>
+                                ) : (
+                                    <button onClick={toggleStatus} className="btn btn-outline-success">
+                                        {loadingStatus ? (
+                                            <SpinnerSizeSm />
+                                        ) : (
+                                            'Ativar'
+                                        )
+                                        }
+                                    </button>
+                                )}
                             </div>
                         </div>
                     </div>
@@ -34,23 +81,22 @@ const UserCard = ({ name, email, phone, document, profile, imagem }) => {
     );
 }
 
-const UserList = ({userLogged}) => {
+const UserList = ({ userLogged, pictureUserLogged, dataCitizens }) => {
     return (
-        <div className="container mt-5">
-            <h1 className="mb-4">Administração de Usuários - {userLogged}</h1>
-            <div className="row" id="userList">
-                <div className="col">
-                    <UserCard name="João" email="joao@example.com" phone="123456789" document="123456789" profile="Padrão" imagem={imagem} />
-                </div>
-                <div className="col">
-                    <UserCard name="Maria" email="maria@example.com" phone="987654321" document="987654321" profile="Avançado" imagem={imagem} />
-                </div>
-                <div className="col">
-                    <UserCard name="Maria" email="maria@example.com" phone="987654321" document="987654321" profile="Avançado" imagem={imagem} />
-                </div>
-                <div className="col">
-                    <UserCard name="Maria" email="maria@example.com" phone="987654321" document="987654321" profile="Avançado" imagem={imagem} />
-                </div>
+        <div className="container">
+            <p className="fs-3">Citizens Administration - {userLogged}</p>
+            <div className="row mt-3" id="userList">
+                {!dataCitizens || dataCitizens.length === 0 ? (
+                    <div className="alert alert-warning" role="alert">
+                        No citizens found
+                    </div>
+                ) : (
+                    dataCitizens.map((citizen, index) =>
+                        <div className="col" key={index}>
+                            <UserCard id={citizen.id} name={citizen.name} email={citizen.email} phone={citizen.phone} document={citizen.documentNumber} profile={citizen.profile} status={citizen.active} imagem={pictureUserLogged} />
+                        </div>
+                    )
+                )}
             </div>
         </div>
     );

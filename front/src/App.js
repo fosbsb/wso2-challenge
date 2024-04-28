@@ -32,7 +32,7 @@ function App() {
           const basicUserInfo = await getBasicUserInfo();
 
           try {
-            const response = await GetDataCitizenByEmail(basicUserInfo.email);
+            const response = await GetDataCitizenByEmail(basicUserInfo.email, true);
             if (response.requestStatus === 200) {
 
               const dataUserRegister = response.data[0];
@@ -46,9 +46,11 @@ function App() {
 
               localStorage.setItem('dataUserLogged', JSON.stringify(dataUserAuthLogged));
 
-              if (dataUserRegister) {
+              if (dataUserRegister && dataUserRegister.profile !== 'ADMIN') {
                 navigate(`/profile/${dataUserRegister.id}`);
-              } else {
+              }else if (dataUserRegister && dataUserRegister.profile === 'ADMIN') {
+                navigate(`/admin`);
+              }else {
                 navigate('/register')
               }
             } else {

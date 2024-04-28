@@ -42,7 +42,7 @@ function Profile() {
                     const response = await GetDataCitizenById(userId);
                     if (response.requestStatus === 200) {
 
-                        if ((response.data.email !== dataUserLogged.email) || (response.data.profile == 'ADMIN')) {
+                        if ((response.data.email !== dataUserLogged.email) || (response.data.profile === 'ADMIN')) {
                             navigate('/');
                         }
 

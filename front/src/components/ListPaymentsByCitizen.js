@@ -10,7 +10,7 @@ import { formatDistanceToNow } from 'date-fns';
 
 function ListItem({ payment, index }) {
     const secondaryClass = index % 2 === 1 ? "list-group-item-primary" : "";
-    const amount = parseFloat(payment.amount).toFixed(2);
+    const amount = (payment.amount).toLocaleString('pt-BR', { minimumFractionDigits: 2 });
     const [loading, setLoading] = useState(true);
     const [dataProvider, setDataProvider] = useState(true);
     const toastError = () => {

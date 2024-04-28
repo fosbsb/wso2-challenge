@@ -43,7 +43,7 @@ function Payment() {
                     const response = await GetDataCitizenById(userId);
                     if (response.requestStatus === 200) {
 
-                        if ((response.data.email !== dataUserLogged.email) || (response.data.profile != 'PROVIDER') || (response.data.profile == 'ADMIN') || !(response.data.active)) {
+                        if ((response.data.email !== dataUserLogged.email) || (response.data.profile !== 'PROVIDER') || (response.data.profile == 'ADMIN') || !(response.data.active)) {
                             navigate('/');
                         }
 

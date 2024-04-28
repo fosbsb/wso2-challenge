@@ -3,12 +3,13 @@ import { GetToken } from '../authentication/apiAuth';
 
 async function GetDataCitizenByProfileActive(profile) {
     const active = true;
+    const all = false;
 
     try {
         const apiUrl = process.env.REACT_APP_URL_GET_CITIZEN_BY_SEARCH;
         const token = await GetToken();
         const response = await axios.get(apiUrl, {
-            params: { profile, active },
+            params: { profile, active, all },
             headers: {
                 'Authorization': token,
             },
