@@ -13,9 +13,8 @@ configurable string DATABASE = ?;
 configurable decimal SECONDES = ?;
 configurable decimal TIME = ?;
 
-
 final mysql:Client dbClient = check new(
-    host=HOST, user=USER, password=PASSWORD, port=PORT, database=DATABASE
+    host=HOST, user=USER, password=PASSWORD, port=PORT, database=DATABASE, connectionPool = {maxOpenConnections: 5}
 );
 
 isolated function cancelPayments() returns int|error {
@@ -45,7 +44,7 @@ class Job {
 
     public function execute() {
         self.i += 1;
-        io:println("Update rows: ", cancelPayments());       
+        io:println("[MYSQL][UPDATE ROWS]   -> [", cancelPayments(),"]");       
     }
 
     isolated function init(int i) {
@@ -57,9 +56,10 @@ public function main() returns error? {
 
     task:JobId id = check task:scheduleJobRecurByFrequency(new Job(0), SECONDES);
 
-    //24 horas
     runtime:sleep(TIME);
 
-    io:println("Job " + id.toString() + " completed");
     check task:unscheduleJob(id);
+    io:println("[ JOB ][" + id.toString() + "] -> [COMPLETED]");
+    check dbClient.close();
+    io:println("[MYSQL][CONNECTION]    -> [FINISHED]");
 }
