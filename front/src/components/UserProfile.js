@@ -7,7 +7,7 @@ const UserProfile = ({ userPicture, dataCitizen }) => {
     const dataFormatada = dataCitizen.dateCreated ? format(new Date(dataCitizen.dateCreated), 'dd/MM/yyyy HH:mm') : '';
 
     return (
-        <div>
+        <div className='mt-3'>
             <div className="card mb-3">
                 <div className="row g-0">
                     <div className="col-md-4" style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
@@ -27,9 +27,9 @@ const UserProfile = ({ userPicture, dataCitizen }) => {
                             <p className="card-text"><small className="text-body-secondary">Criado em: {dataFormatada}</small></p>
                         </div>
                     </div>
-                    <div className="col-md-4" style={{ display: 'flex', justifyContent: 'end', alignItems: 'end', padding: '20px' }}>
-                        <button type="button" className="btn btn-primary"><FontAwesomeIcon icon={faUserPen} /> Editar</button>
-                    </div>
+                    {/* <div className="col-md-4" style={{ display: 'flex', justifyContent: 'end', alignItems: 'end', padding: '20px' }}>
+                        <button type="button" className="btn btn-primary"><FontAwesomeIcon icon={faUserPen} /> Edit</button>
+                    </div> */}
                 </div>
             </div>
         </div>

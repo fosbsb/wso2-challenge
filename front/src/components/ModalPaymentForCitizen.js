@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useRef } from 'react';
 import CurrencyInputField from 'react-currency-input-field';
 import InputMask from 'react-input-mask';
 import { toast } from 'react-toastify';
@@ -12,6 +12,7 @@ function ModalPaymentForCitizen({ idCitizen, nameCitizen, idProvider }) {
     const [expiryDate, setExpiryDate] = useState('');
     const [cardBrand, setCardBrand] = useState('');
     const [loadingSubmit, setLoadingSubmit] = useState(false);
+    const closeButtonRef = useRef(null);
 
     const toastErrorPayment = () => {
         toast.error('Error when making payment', ToastOptions);
@@ -40,7 +41,7 @@ function ModalPaymentForCitizen({ idCitizen, nameCitizen, idProvider }) {
         const payload = {
             idProvider: parseInt(idProvider),
             idCitizen: idCitizen,
-            amount: parseFloat(amount.replace(',', '.')),
+            amount: parseFloat(amount),
             cardNumber: maskString(cardNumber),
             expiryDate: expiryDate,
             cardBrand: cardBrand
@@ -68,6 +69,8 @@ function ModalPaymentForCitizen({ idCitizen, nameCitizen, idProvider }) {
         setCardNumber('');
         setExpiryDate('');
         setCardBrand('');
+
+        closeButtonRef.current.click();
     };
 
     return (
@@ -85,9 +88,7 @@ function ModalPaymentForCitizen({ idCitizen, nameCitizen, idProvider }) {
                                 id="amount"
                                 name="amount"
                                 className="form-control"
-                                placeholder="$0.00"
                                 allowDecimals={true}
-                                decimalScale={2}
                                 prefix="$"
                                 onValueChange={(value) => setAmount(value)}
                                 value={amount}
@@ -136,7 +137,7 @@ function ModalPaymentForCitizen({ idCitizen, nameCitizen, idProvider }) {
                         </div>
                     </div>
                     <div className="modal-footer">
-                        <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button ref={closeButtonRef} type="button" className="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                         <button
                             type="button"
                             className="btn btn-primary"

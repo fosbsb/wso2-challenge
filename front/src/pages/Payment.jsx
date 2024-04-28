@@ -10,7 +10,7 @@ import { toast } from 'react-toastify';
 import CustomToastContainer from "../components/toasts/CustomToastContainer";
 import { ToastOptions } from "../utils/ToastConfig";
 import ListCitizenForPayment from "../components/ListCitizenForPayment";
-import GetDataCitizenByProfile from "../api/citizen/apiGetCitizenByProfile";
+import GetDataCitizenByProfileActive from "../api/citizen/apiGetCitizenByProfileActive";
 
 function Payment() {
     const { state, signOut } = useAuthContext();
@@ -43,12 +43,12 @@ function Payment() {
                     const response = await GetDataCitizenById(userId);
                     if (response.requestStatus === 200) {
 
-                        if (response.data.email !== dataUserLogged.email) {
+                        if ((response.data.email !== dataUserLogged.email) || (response.data.profile != 'PROVIDER') || (response.data.profile == 'ADMIN') || !(response.data.active)) {
                             navigate('/');
                         }
 
                         try{
-                            const responseCitizens = await GetDataCitizenByProfile('CITIZEN');
+                            const responseCitizens = await GetDataCitizenByProfileActive('CITIZEN');
 
                             if (response.requestStatus === 200) {
                                 setDataCitizens(responseCitizens.data);

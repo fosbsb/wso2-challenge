@@ -1,12 +1,14 @@
 import axios from 'axios';
 import { GetToken } from '../authentication/apiAuth';
 
-async function GetDataCitizenByProfile(profile) {
+async function GetDataCitizenByProfileActive(profile) {
+    const active = true;
+
     try {
         const apiUrl = process.env.REACT_APP_URL_GET_CITIZEN_BY_SEARCH;
         const token = await GetToken();
         const response = await axios.get(apiUrl, {
-            params: { profile },
+            params: { profile, active },
             headers: {
                 'Authorization': token,
             },
@@ -24,4 +26,4 @@ async function GetDataCitizenByProfile(profile) {
     }
 }
 
-export default GetDataCitizenByProfile;
+export default GetDataCitizenByProfileActive;

@@ -39,13 +39,13 @@ function ListItem({ payment, index }) {
 
     const getStatusClass = () => {
         if (payment.status === 'WAITING') {
-          return 'btn-info';
+            return 'btn-info';
         } else if (payment.status === 'CANCELLED') {
-          return 'btn-danger';
+            return 'btn-danger';
         } else if (payment.status === 'PAID') {
-          return 'btn-success';
+            return 'btn-success';
         }
-      };
+    };
 
     return (
         <div className={`list-group-item list-group-item-action ${secondaryClass}`} key={index}>
@@ -68,13 +68,20 @@ function ListItem({ payment, index }) {
 
 function ListPaymentsByCitizen({ dataPayment }) {
     return (
-        <div>
+        <div className='mt-3'>
             <CustomToastContainer />
             <p className="fs-4">Lista de Pagamentos Recebidos</p>
-            <div className="list-group">
-                {dataPayment.map((payment, index) =>
-                    <ListItem payment={payment} index={index} key={index} />
+            <div className="list-group mt-3">
+                {!dataPayment || dataPayment.length === 0 ? (
+                    <div className="alert alert-warning" role="alert">
+                        No payments received
+                    </div>
+                ) : (
+                    dataPayment.map((payment, index) =>
+                        <ListItem payment={payment} index={index} key={index} />
+                    )
                 )}
+
             </div>
         </div>
     );

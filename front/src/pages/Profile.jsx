@@ -17,13 +17,11 @@ function Profile() {
     const { state, signOut } = useAuthContext();
     const { userId } = useParams();
     const navigate = useNavigate();
-
     const dataUserLogged = JSON.parse(localStorage.getItem('dataUserLogged'));
-
     let [dataCitizen, setDataCitizen] = useState(null);
     let [dataPayment, setDataPayment] = useState(null);
-
     const [loadingPage, setLoadingPage] = useState(true);
+    const [profileCitizen, setProfileCitizen] = useState('');
 
     const toastError = () => {
         navigate('/');
@@ -44,23 +42,24 @@ function Profile() {
                     const response = await GetDataCitizenById(userId);
                     if (response.requestStatus === 200) {
 
-                        if (response.data.email !== dataUserLogged.email) {
+                        if ((response.data.email !== dataUserLogged.email) || (response.data.profile == 'ADMIN')) {
                             navigate('/');
                         }
 
-                        try{
+                        try {
                             const responsePayment = await GetDataPaymentByCitizen(userId);
 
                             if (response.requestStatus === 200) {
                                 setDataPayment(responsePayment.data);
-                            }else{
+                            } else {
                                 toastErrorPayment();
                             }
-                        }catch (error){
+                        } catch (error) {
                             toastErrorPayment();
                         }
 
                         setDataCitizen(response.data);
+                        setProfileCitizen(response.data.profile);
                     } else {
                         toastError();
                     }
@@ -84,9 +83,11 @@ function Profile() {
                 <div>
                     <Navbar isAuthenticated={state.isAuthenticated} signOut={signOut} dataCitizen={dataCitizen} />
                     <div className="container">
-                        <p className="fs-1">Bem vindo - {dataUserLogged.givenName}</p>
+                        <p className="fs-3">Bem vindo - {dataUserLogged.givenName}</p>
                         <UserProfile userPicture={dataUserLogged ? dataUserLogged.picture : ''} dataCitizen={dataCitizen ? dataCitizen : ''} />
-                        <ListPaymentsByCitizen dataPayment={dataPayment} />
+                        {profileCitizen === 'CITIZEN' && (
+                            <ListPaymentsByCitizen dataPayment={dataPayment} />
+                        )}
                     </div>
                     <Footer />
                 </div>
