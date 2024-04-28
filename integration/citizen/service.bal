@@ -12,8 +12,8 @@ service /immigrant on new http:Listener(8080) {
 
     isolated resource function get citizen/search(int? id, string? name, string? email, string? profile, 
                                            string? country, string? documentNumber, 
-                                           string? address, boolean? active) returns Citizen[]|error? {
-        return getFilterCitizen(id, name, email, profile, country, documentNumber, address, active);
+                                           string? address, boolean? active, boolean all) returns Citizen[]|error? {
+        return getFilterCitizen(id, name, email, profile, country, documentNumber, address, active, all);
     }
 
     isolated resource function post citizen(@http:Payload Citizen citizen) returns Citizen|http:NotFound|error? {

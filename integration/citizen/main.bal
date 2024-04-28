@@ -184,57 +184,60 @@ isolated function removeCitizen(int id) returns Message|error {
 }
 
 isolated function getFilterCitizen(int? id, string? name, string? email, string? profile, string? country, 
-                                   string? documentNumber, string? address, boolean? active) returns Citizen[]|error {
-       
-        string adminProfile = "ADMIN";
+                                   string? documentNumber, string? address, boolean? active, boolean all) returns Citizen[]|error {
+    sql:ParameterizedQuery query;                       
 
-        sql:ParameterizedQuery query = `SELECT * FROM citizen WHERE profile <> ${adminProfile} `;
+    if (all) {
+        query = `SELECT * FROM citizen WHERE id > 0 `;
+    } else {
+        query = `SELECT * FROM citizen WHERE profile <> 'ADMIN' `;
+    }
 
-        if (id != null) {
-            sql:ParameterizedQuery filter = ` AND id = ${id}`;
-            query = sql:queryConcat(query,filter);
-        }
+    if (id != null) {
+        sql:ParameterizedQuery filter = ` AND id = ${id}`;
+        query = sql:queryConcat(query,filter);
+    }
 
-        if (name != null) {
-            string nameLike = "%" + name + "%";
-            sql:ParameterizedQuery filter = ` AND name like ${nameLike}`;
-            query = sql:queryConcat(query,filter);
-        }
+    if (name != null) {
+        string nameLike = "%" + name + "%";
+        sql:ParameterizedQuery filter = ` AND name like ${nameLike}`;
+        query = sql:queryConcat(query,filter);
+    }
 
-        if (email != null) {
-            sql:ParameterizedQuery filter = ` AND email = ${email}`;
-            query = sql:queryConcat(query,filter);
-        }
+    if (email != null) {
+        sql:ParameterizedQuery filter = ` AND email = ${email}`;
+        query = sql:queryConcat(query,filter);
+    }
 
-        if (profile != null) {
-            sql:ParameterizedQuery filter = ` AND profile = ${profile}`;
-            query = sql:queryConcat(query,filter);
-        }
+    if (profile != null) {
+        sql:ParameterizedQuery filter = ` AND profile = ${profile}`;
+        query = sql:queryConcat(query,filter);
+    }
 
-        if (country != null) {
-            sql:ParameterizedQuery filter = ` AND country = ${country}`;
-            query = sql:queryConcat(query,filter);
-        }
+    if (country != null) {
+        sql:ParameterizedQuery filter = ` AND country = ${country}`;
+        query = sql:queryConcat(query,filter);
+    }
 
-        if (documentNumber != null) {
-            sql:ParameterizedQuery filter = ` AND document_number = ${documentNumber}`;
-            query = sql:queryConcat(query,filter);
-        }
+    if (documentNumber != null) {
+        sql:ParameterizedQuery filter = ` AND document_number = ${documentNumber}`;
+        query = sql:queryConcat(query,filter);
+    }
 
-        if (active != null) {
-            sql:ParameterizedQuery filter = ` AND active = ${active}`;
-            query = sql:queryConcat(query,filter);
-        }
+    if (active != null) {
+        sql:ParameterizedQuery filter = ` AND active = ${active}`;
+        query = sql:queryConcat(query,filter);
+    }
 
-        if (address != null) {
-            string nameAddress = "%" + address + "%";
-            sql:ParameterizedQuery filter = ` AND address like ${nameAddress}`;
-            query = sql:queryConcat(query,filter);
-        }
+    if (address != null) {
+        string nameAddress = "%" + address + "%";
+        sql:ParameterizedQuery filter = ` AND address like ${nameAddress}`;
+        query = sql:queryConcat(query,filter);
+    }
 
-        stream<Citizen, sql:Error?> resultStream = dbClient->query(query);
-        
-        return from Citizen citizen in resultStream select citizen;
+    stream<Citizen, sql:Error?> resultStream = dbClient->query(query);
+    
+    return from Citizen citizen in resultStream select citizen;
 
 }
 
