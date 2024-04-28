@@ -9,11 +9,10 @@ import GetDataCitizenById from "../api/citizen/apiGetCitizenById";
 import { toast } from 'react-toastify';
 import CustomToastContainer from "../components/toasts/CustomToastContainer";
 import { ToastOptions } from "../utils/ToastConfig";
-import UserProfile from "../components/UserProfile";
-import ListPaymentsByCitizen from "../components/ListPaymentsByCitizen";
-import GetDataPaymentByCitizen from "../api/payment/apiGetPaymentByCitizen";
+import ListCitizenForPayment from "../components/ListCitizenForPayment";
+import GetDataCitizenByProfile from "../api/citizen/apiGetCitizenByProfile";
 
-function Profile() {
+function Payment() {
     const { state, signOut } = useAuthContext();
     const { userId } = useParams();
     const navigate = useNavigate();
@@ -21,7 +20,7 @@ function Profile() {
     const dataUserLogged = JSON.parse(localStorage.getItem('dataUserLogged'));
 
     let [dataCitizen, setDataCitizen] = useState(null);
-    let [dataPayment, setDataPayment] = useState(null);
+    let [dataCitizens, setDataCitizens] = useState(null);
 
     const [loadingPage, setLoadingPage] = useState(true);
 
@@ -33,8 +32,8 @@ function Profile() {
         }, 1000);
     };
 
-    const toastErrorPayment = () => {
-        toast.error('Erro ao obter informações de pagamentos', ToastOptions);
+    const toastErrorCitizens = () => {
+        toast.error('Erro ao obter informações de citizens', ToastOptions);
     };
 
     useEffect(() => {
@@ -49,15 +48,15 @@ function Profile() {
                         }
 
                         try{
-                            const responsePayment = await GetDataPaymentByCitizen(userId);
+                            const responseCitizens = await GetDataCitizenByProfile('CITIZEN');
 
                             if (response.requestStatus === 200) {
-                                setDataPayment(responsePayment.data);
+                                setDataCitizens(responseCitizens.data);
                             }else{
-                                toastErrorPayment();
+                                toastErrorCitizens();
                             }
                         }catch (error){
-                            toastErrorPayment();
+                            toastErrorCitizens();
                         }
 
                         setDataCitizen(response.data);
@@ -72,7 +71,7 @@ function Profile() {
                 }
             }
         })();
-    }, [state, setDataCitizen, setDataPayment]);
+    }, [state, setDataCitizen, setDataCitizens]);
 
     return (
         <div>
@@ -84,9 +83,8 @@ function Profile() {
                 <div>
                     <Navbar isAuthenticated={state.isAuthenticated} signOut={signOut} dataCitizen={dataCitizen} />
                     <div className="container">
-                        <p className="fs-1">Bem vindo - {dataUserLogged.givenName}</p>
-                        <UserProfile userPicture={dataUserLogged ? dataUserLogged.picture : ''} dataCitizen={dataCitizen ? dataCitizen : ''} />
-                        <ListPaymentsByCitizen dataPayment={dataPayment} />
+                        <p className="fs-3">List of Citizens</p>
+                        <ListCitizenForPayment dataCitizens={dataCitizens} idProvider={userId} />
                     </div>
                     <Footer />
                 </div>
@@ -95,4 +93,4 @@ function Profile() {
     )
 }
 
-export default Profile;
+export default Payment;

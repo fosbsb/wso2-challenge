@@ -3,8 +3,8 @@ import { format } from 'date-fns';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUserPen } from '@fortawesome/free-solid-svg-icons';
 
-const UserProfile = ({ userPicture, dataUser }) => {
-    const dataFormatada = dataUser.dateCreated ? format(new Date(dataUser.dateCreated), 'dd/MM/yyyy HH:mm') : '';
+const UserProfile = ({ userPicture, dataCitizen }) => {
+    const dataFormatada = dataCitizen.dateCreated ? format(new Date(dataCitizen.dateCreated), 'dd/MM/yyyy HH:mm') : '';
 
     return (
         <div>
@@ -16,14 +16,14 @@ const UserProfile = ({ userPicture, dataUser }) => {
                     <div className="col-md-4">
                         <div className="card-body" style={{ textAlign: 'left' }}>
                             <h5 className="card-title">Dados de Cadastro</h5>
-                            <p className="card-text"><strong>Status:</strong> {dataUser.active ? 'Ativo' : 'Não ativo'}</p>
-                            <p className="card-text"><strong>Perfil:</strong> {dataUser.profile}</p>
-                            <p className="card-text"><strong>Nome:</strong> {dataUser.name}</p>
-                            <p className="card-text"><strong>Email:</strong> {dataUser.email}</p>
-                            <p className="card-text"><strong>Telefone:</strong> {dataUser.phone}</p>
-                            <p className="card-text"><strong>Documento:</strong> {dataUser.documentNumber}</p>
-                            <p className="card-text"><strong>CEP:</strong> {dataUser.cep}</p>
-                            <p className="card-text"><strong>Endereço:</strong> {dataUser.address}</p>
+                            <p className="card-text"><strong>Status:</strong> {dataCitizen.active ? 'Ativo' : 'Não ativo'}</p>
+                            <p className="card-text"><strong>Perfil:</strong> {dataCitizen.profile}</p>
+                            <p className="card-text"><strong>Nome:</strong> {dataCitizen.name}</p>
+                            <p className="card-text"><strong>Email:</strong> {dataCitizen.email}</p>
+                            <p className="card-text"><strong>Telefone:</strong> {dataCitizen.phone}</p>
+                            <p className="card-text"><strong>Documento:</strong> {dataCitizen.documentNumber}</p>
+                            <p className="card-text"><strong>CEP:</strong> {dataCitizen.cep}</p>
+                            <p className="card-text"><strong>Endereço:</strong> {dataCitizen.address}</p>
                             <p className="card-text"><small className="text-body-secondary">Criado em: {dataFormatada}</small></p>
                         </div>
                     </div>

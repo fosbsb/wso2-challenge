@@ -1,7 +1,6 @@
 import { useAuthContext } from "@asgardeo/auth-react";
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
-import '../css/main.css';
 import Navbar from "../components/Navbar";
 import UserList from "../components/UserList";
 import Footer from "../components/Footer";

@@ -1,5 +1,5 @@
 import { useAuthContext } from "@asgardeo/auth-react";
-import React, { useEffect, useState } from "react";
+import React from "react";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import RegistrationForm from "../components/RegistrationForm";

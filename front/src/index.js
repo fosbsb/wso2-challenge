@@ -8,6 +8,7 @@ import config from "./config.json";
 import Dashboard from './pages/Dashboard';
 import Register from './pages/Register';
 import Profile from './pages/Profile';
+import Payment from './pages/Payment';
 
 createRoot(document.getElementById('root')).render(
     <AuthProvider config={config}>
@@ -17,6 +18,7 @@ createRoot(document.getElementById('root')).render(
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/register" element={<Register />} />
           <Route path="/profile/:userId" element={<Profile />} />
+          <Route path="/payment/:userId" element={<Payment />} />
         </Routes>
       </Router>
     </AuthProvider>

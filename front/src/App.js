@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { useAuthContext } from '@asgardeo/auth-react';
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import 'bootstrap/dist/js/bootstrap.bundle'
 import './css/main.css';
 import UseAuthRedirect from "./utils/UseAuthRedirect";
 import SpinnerScreenLoad from './components/spinners/SpinnerScreenLoad';
