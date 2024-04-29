@@ -34,7 +34,7 @@ function ModalPaymentForCitizen({ idCitizen, nameCitizen, idProvider }) {
     const handleSubmit = async () => {
         // Verifica se todos os campos estão preenchidos
         if (!amount || !cardNumber || !expiryDate || !cardBrand) {
-            toast.warn('Preencha todos os campos', ToastOptions);
+            toast.warn('Fill in all fields', ToastOptions);
             return;
         }
 

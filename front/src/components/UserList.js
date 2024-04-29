@@ -13,7 +13,6 @@ const UserCard = ({ id, name, email, phone, document, profile, imagem, status })
     }
 
     const toggleStatus = async () => {
-        // setIsActive(!isActive);
         try {
             setLoadingStatus(true);
 
@@ -34,50 +33,47 @@ const UserCard = ({ id, name, email, phone, document, profile, imagem, status })
 
     return (
         <div className="card user-card col position-relative">
-            <div className="row g-0">
-                <div className="col-md-8">
-                    <div className="card-body">
-                        <h3 className="card-title">{name}</h3>
-                        <p className="card-text"><strong>Email:</strong> {email}</p>
-                        <p className="card-text"><strong>Telefone:</strong> {phone}</p>
-                        <p className="card-text"><strong>Documento:</strong> {document}</p>
-                        <p className="card-text"><strong>Perfil:</strong> {profile}</p>
-                        <p className="card-text"><strong>Status:</strong> {isActive ? 'Ativo' : 'Desativo'}</p>
-                    </div>
+        <div className="row g-0">
+            <div className="col-md-8">
+                <div className="card-body">
+                    <h3 className="card-title">{name}</h3>
+                    <p className="card-text"><strong>Email:</strong> {email}</p>
+                    <p className="card-text"><strong>Telefone:</strong> {phone}</p>
+                    <p className="card-text"><strong>Documento:</strong> {document}</p>
+                    <p className="card-text"><strong>Perfil:</strong> {profile}</p>
+                    <p className="card-text"><strong>Status:</strong> {isActive ? 'Ativo' : 'Desativado'}</p>
                 </div>
-                <div className="col-md-4">
-                    <img src={imagem} alt={name} className="user-photo card-img-bottom" />
-                </div>
-                <div className="col-md-12">
-                    <div className="position-relative">
-
-                        <div>
-                            <div className="d-flex justify-content-end mt-2">
-                                {isActive ? (
-                                    <button onClick={toggleStatus} className="btn btn-outline-danger">
-                                        {loadingStatus ? (
-                                            <SpinnerSizeSm />
-                                        ) : (
-                                            'Desativar'
-                                        )
-                                        }
-                                    </button>
-                                ) : (
-                                    <button onClick={toggleStatus} className="btn btn-outline-success">
-                                        {loadingStatus ? (
-                                            <SpinnerSizeSm />
-                                        ) : (
-                                            'Ativar'
-                                        )
-                                        }
-                                    </button>
-                                )}
-                            </div>
-                        </div>
-                    </div>
+            </div>
+            <div className="col-md-4">
+                <div className="user-photo card-img-bottom">
+                    {name.charAt(0)}
                 </div>
             </div>
         </div>
+        <div className="position-absolute bottom-0 end-0 p-3">
+            <div>
+                {isActive ? (
+                    <button onClick={toggleStatus} className="btn btn-outline-danger">
+                        {loadingStatus ? (
+                            <SpinnerSizeSm />
+                        ) : (
+                            'Desativar'
+                        )
+                        }
+                    </button>
+                ) : (
+                    <button onClick={toggleStatus} className="btn btn-outline-success">
+                        {loadingStatus ? (
+                            <SpinnerSizeSm />
+                        ) : (
+                            'Ativar'
+                        )
+                        }
+                    </button>
+                )}
+            </div>
+        </div>
+    </div>
     );
 }
 
@@ -92,7 +88,7 @@ const UserList = ({ userLogged, pictureUserLogged, dataCitizens }) => {
                     </div>
                 ) : (
                     dataCitizens.map((citizen, index) =>
-                        <div className="col" key={index}>
+                        <div className="col" key={index} style={{marginTop: '20px'}}>
                             <UserCard id={citizen.id} name={citizen.name} email={citizen.email} phone={citizen.phone} document={citizen.documentNumber} profile={citizen.profile} status={citizen.active} imagem={pictureUserLogged} />
                         </div>
                     )

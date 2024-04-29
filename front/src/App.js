@@ -38,7 +38,7 @@ function App() {
               const dataUserRegister = response.data[0];
 
               const dataUserAuthLogged = {
-                name: basicUserInfo.name,
+                name: basicUserInfo.name ? basicUserInfo.name : basicUserInfo.displayName,
                 givenName: basicUserInfo.givenName,
                 email: basicUserInfo.email,
                 picture: basicUserInfo.picture

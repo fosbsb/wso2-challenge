@@ -48,7 +48,7 @@ function ListItem({ payment, index }) {
     };
 
     return (
-        <div className={`list-group-item list-group-item-action ${secondaryClass}`} key={index}>
+        <div className={`list-group-item list-group-item-action ${secondaryClass}`} key={index} style={{padding: '15px'}}>
             <div className="d-flex w-100 justify-content-between">
                 <h5 className="mb-1"><FontAwesomeIcon icon={faCreditCard} /> {payment.paymentType === 'CREDIT_CARD' ? 'CREDIT CARD' : payment.paymentType}</h5>
                 <p style={{ width: '7.5em' }} className={`sb-1 btn ${getStatusClass()}`}>{payment.status}</p>

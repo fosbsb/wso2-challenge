@@ -1,7 +1,6 @@
 import React from 'react';
 import { format } from 'date-fns';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faUserPen } from '@fortawesome/free-solid-svg-icons';
+import image from '../images/profile.png'
 
 const UserProfile = ({ userPicture, dataCitizen }) => {
     const dataFormatada = dataCitizen.dateCreated ? format(new Date(dataCitizen.dateCreated), 'dd/MM/yyyy HH:mm') : '';
@@ -11,7 +10,7 @@ const UserProfile = ({ userPicture, dataCitizen }) => {
             <div className="card mb-3">
                 <div className="row g-0">
                     <div className="col-md-4" style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-                        <img src={userPicture} referrerPolicy="no-referrer" className="img-fluid rounded" alt="..." style={{maxHeight: '150px', width: '150px'}} />
+                        <img src={userPicture ? userPicture : image} referrerPolicy="no-referrer" className="img-fluid rounded" alt="..." style={{maxHeight: '150px', width: '150px'}} />
                     </div>
                     <div className="col-md-4">
                         <div className="card-body" style={{ textAlign: 'left' }}>
@@ -27,9 +26,6 @@ const UserProfile = ({ userPicture, dataCitizen }) => {
                             <p className="card-text"><small className="text-body-secondary">Criado em: {dataFormatada}</small></p>
                         </div>
                     </div>
-                    {/* <div className="col-md-4" style={{ display: 'flex', justifyContent: 'end', alignItems: 'end', padding: '20px' }}>
-                        <button type="button" className="btn btn-primary"><FontAwesomeIcon icon={faUserPen} /> Edit</button>
-                    </div> */}
                 </div>
             </div>
         </div>
