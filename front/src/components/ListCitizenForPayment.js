@@ -5,6 +5,15 @@ import ModalPaymentForCitizen from './ModalPaymentForCitizen';
 function ListCitizenForPayment({ dataCitizens, idProvider }) {
     const [nameCitizen, setNameCitizen] = useState(null);
     const [idCitizen, setIdCitizen] = useState(null);
+    const [searchTerm, setSearchTerm] = useState('');
+
+    const handleSearch = (event) => {
+        setSearchTerm(event.target.value);
+    }
+
+    const filteredCitizens = dataCitizens.filter(citizen => {
+        return citizen.name.toLowerCase().includes(searchTerm.toLowerCase());
+    });
 
     const handleClick = (nameCitizen, idCitizen) => {
         setNameCitizen(nameCitizen);
@@ -14,13 +23,24 @@ function ListCitizenForPayment({ dataCitizens, idProvider }) {
     return (
         <div>
             <ModalPaymentForCitizen nameCitizen={nameCitizen} idProvider={idProvider} idCitizen={idCitizen} />
+            <div className='mb-3 mt-3 d-flex justify-content-center'>
+                <div className='col-md-4'>
+                    <input
+                        type="text"
+                        className="form-control"
+                        placeholder="Search by name..."
+                        value={searchTerm}
+                        onChange={handleSearch}
+                    />
+                </div>
+            </div>
             <div className="row row-cols-1 row-cols-md-3 g-4 mt-3">
-                {!dataCitizens || dataCitizens.length === 0 ? (
-                    <div className="alert alert-warning" role="alert" style={{width: '100%'}}>
+                {!filteredCitizens || filteredCitizens.length === 0 ? (
+                    <div className="alert alert-warning" role="alert" style={{ width: '100%' }}>
                         No citizens found or not active
                     </div>
                 ) : (
-                    dataCitizens.map((citizen, index) =>
+                    filteredCitizens.map((citizen, index) =>
                         <div className="col" key={index}>
                             <div className="card h-100">
                                 <div className="card-body">
