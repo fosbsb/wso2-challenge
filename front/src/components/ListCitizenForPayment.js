@@ -24,7 +24,7 @@ function ListCitizenForPayment({ dataCitizens, idProvider }) {
         <div>
             <ModalPaymentForCitizen nameCitizen={nameCitizen} idProvider={idProvider} idCitizen={idCitizen} />
             <div className='mb-3 mt-3 d-flex justify-content-center'>
-                <div className='col-md-4'>
+                <div className='col-md-6'>
                     <input
                         type="text"
                         className="form-control"
