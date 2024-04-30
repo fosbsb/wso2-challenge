@@ -48,11 +48,11 @@ function ListItem({ payment, index }) {
     };
 
     return (
-        <div className={`list-group-item list-group-item-action ${secondaryClass}`} key={index} style={{padding: '15px'}}>
-            <div className="d-flex w-100 justify-content-between">
-                <h5 className="mb-1"><FontAwesomeIcon icon={faCreditCard} /> {payment.paymentType === 'CREDIT_CARD' ? 'CREDIT CARD' : payment.paymentType}</h5>
+        <div className={`list-group-item list-group-item-action ${secondaryClass}`} key={index} style={{ padding: '15px' }}>
+            <div className="d-flex w-100 justify-content-between flex-wrap" style={{ gap: '10px' }}>
+                <h5 className="mb-3"><FontAwesomeIcon icon={faCreditCard} /> {payment.paymentType === 'CREDIT_CARD' ? 'CREDIT CARD' : payment.paymentType}</h5>
                 <p style={{ width: '7.5em' }} className={`sb-1 btn ${getStatusClass()}`}>{payment.status}</p>
-                <p className="mb-1">$ {amount}</p>
+                <p className="mb-3">Amount: $ {amount}</p>
                 <small className="text-body-secondary">Provider:&nbsp;
                     {loading ? (
                         <SpinnerSizeSm />

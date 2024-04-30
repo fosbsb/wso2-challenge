@@ -9,7 +9,7 @@ const UserProfile = ({ userPicture, dataCitizen }) => {
         <div className='mt-3'>
             <div className="card mb-3">
                 <div className="row g-0">
-                    <div className="col-md-4" style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                    <div className="col-md-4" style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', padding: '20px' }}>
                         <img src={userPicture ? userPicture : image} referrerPolicy="no-referrer" className="img-fluid rounded" alt="..." style={{maxHeight: '150px', width: '150px'}} />
                     </div>
                     <div className="col-md-4">
